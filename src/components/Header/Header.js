@@ -1,22 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
+
+    const [userVar,setUserVar]=useState('');
+    const user = localStorage.getItem('userName');
+
+    useEffect(()=>{
+        setUserVar(user)
+
+    })
+
+    const logoutHandler =()=>{
+        localStorage.setItem('userName','');
+        setUserVar('');
+    }
     return (
-        <div>
-            Header
+        <div className='headerClass'>
             <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/menu">Menu</Link>
-        <Link to="/contact">Contact Us</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/dashboard">Dashboard</Link>
+                <Link className='headerList'  to="/">Home</Link>
+                <Link  className='headerList' to="/about">About</Link>
+                <Link  className='headerList' to="/menu">Menu</Link>
+                <Link  className='headerList' to="/contact">Contact Us</Link>
+                {
+                    userVar ?
+                        <Link className='headerList' 
+                            to="#"
+                            onClick={logoutHandler} >Logout</Link>
+                        :
+                        <Link className='headerList'  to="/login">Login</Link>
 
+                }
 
+                {user ? <Link to="/dashboard">Dashboard</Link>: ''}
+                
 
-      </nav>
+            </nav>
 
         </div>
     );
